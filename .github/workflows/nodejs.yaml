@@ -30,3 +30,12 @@ jobs:
         run: |
           cd nodejs-microservice
           docker build -t nodejs-application:${{ github.run_number }} . 
+      - name: Tag Docker Image
+        id: tag-image
+        run: |
+          docker tag nodejs-application:${{ github.run_number }} ${{secrets.ECR_REPO_URI}}:latest
+      
+      - name: Push Docker Image
+        id: push-image
+        run: |
+          docker push ${{secrets.ECR_REPO_URI}}:latest
